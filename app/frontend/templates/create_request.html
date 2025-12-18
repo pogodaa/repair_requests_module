@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Создать заявку{% endblock %}
+{% block header %}Создать заявку на ремонт{% endblock %}
+{% block content %}
+<div style="max-width: 600px; margin: 0 auto;">
+  <form method="post">
+    <label>Тип оборудования:</label>
+    <input type="text" name="climateTechType" placeholder="Например: Кондиционер" 
+           required minlength="2" maxlength="100"
+           style="width:100%; padding:8px; margin:6px 0; border:1px solid #ccc; border-radius:4px;">
+
+    <label>Модель:</label>
+    <input type="text" name="climateTechModel" placeholder="Например: LG A25" 
+           required minlength="1" maxlength="100"
+           style="width:100%; padding:8px; margin:6px 0; border:1px solid #ccc; border-radius:4px;">
+
+    <label>Описание проблемы:</label>
+    <textarea name="problemDescryption" placeholder="Опишите неисправность..." 
+              required minlength="10" maxlength="500"
+              style="width:100%; padding:8px; margin:6px 0; border:1px solid #ccc; border-radius:4px;"></textarea>
+
+    <p style="text-align: center; margin-top: 20px;">
+      <button type="submit" class="button button-primary" 
+              style="width: 160px; height: 42px; line-height: 42px; margin-right: 20px; padding: 0;">
+        Отправить
+      </button>
+      <a href="/" class="button button-primary" 
+         style="width: 140px; height: 42px; line-height: 42px; text-decoration: none; display: inline-block; padding: 0;">
+        Отмена
+      </a>
+    </p>
+  </form>
+</div>
+{% endblock %}

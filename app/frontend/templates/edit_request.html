@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Редактировать заявку{% endblock %}
+{% block header %}Редактировать заявку №{{ req.requestID }}{% endblock %}
+{% block content %}
+<div style="max-width: 600px; margin: 0 auto;">
+
+  <!-- ✅ Единственный блок с информацией о клиенте -->
+  <p style="background: #e9ecef; padding: 10px; border-radius: 4px; margin-bottom: 20px;">
+    <strong>Клиент:</strong> {{ client_fio }}
+    {% if client_login %} (login: {{ client_login }}) {% endif %}
+  </p>
+
+  <form method="post">
+    <label>Тип оборудования:</label>
+    <input type="text" name="climateTechType" value="{{ req.climateTechType }}" 
+           required minlength="2" maxlength="100"
+           style="width:100%; padding:8px; margin:6px 0; border:1px solid #ccc; border-radius:4px;">
+
+    <label>Модель:</label>
+    <input type="text" name="climateTechModel" value="{{ req.climateTechModel }}" 
+           required minlength="1" maxlength="100"
+           style="width:100%; padding:8px; margin:6px 0; border:1px solid #ccc; border-radius:4px;">
+
+    <label>Описание проблемы:</label>
+    <textarea name="problemDescryption" 
+              required minlength="10" maxlength="500"
+              style="width:100%; padding:8px; margin:6px 0; border:1px solid #ccc; border-radius:4px;">{{ req.problemDescryption }}</textarea>
+
+    <label>Статус:</label>
+    <select name="requestStatus" style="width:100%; padding:8px; margin:6px 0; border:1px solid #ccc; border-radius:4px;">
+      <option value="Новая заявка" {% if req.requestStatus == "Новая заявка" %}selected{% endif %}>Новая заявка</option>
+      <option value="В процессе ремонта" {% if req.requestStatus == "В процессе ремонта" %}selected{% endif %}>В процессе ремонта</option>
+      <option value="Готова к выдаче" {% if req.requestStatus == "Готова к выдаче" %}selected{% endif %}>Готова к выдаче</option>
+    </select>
+
+    <p style="text-align: center; margin-top: 20px;">
+      <button type="submit" class="button button-primary" 
+              style="width: 160px; height: 42px; line-height: 42px; margin-right: 20px; padding: 0;">
+        Сохранить
+      </button>
+      <a href="/" class="button button-primary" 
+         style="width: 140px; height: 42px; line-height: 42px; text-decoration: none; display: inline-block; padding: 0;">
+        Отмена
+      </a>
+    </p>
+  </form>
+</div>
+{% endblock %}

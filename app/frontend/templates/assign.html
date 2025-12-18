@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Назначить специалиста</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" type="image/x-icon" href="/static/images/logo.ico">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Назначить специалиста на заявку №{{ request_id }}</h2>
+
+        <form method="post">
+            <label for="master">Специалист:</label>
+            <select name="masterID" id="master" required style="width: 100%; padding: 8px; margin: 6px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+                <option value="">— Выберите —</option>
+                {% for spec in specialists %}
+                    <option value="{{ spec.userID }}" {% if spec.userID == current_master %}selected{% endif %}>
+                        {{ spec.fio }}
+                    </option>
+                {% endfor %}
+            </select>
+            <p style="text-align: center; margin-top: 20px;">
+                <button type="submit" class="button button-primary" 
+                        style="width: 140px; height: 42px; line-height: 42px; margin-right: 20px; padding: 0;">
+                    Назначить
+                </button>
+                <a href="/" class="button button-primary" 
+                   style="width: 160px; height: 42px; line-height: 42px; text-decoration: none; display: inline-block; text-align: center; padding: 0;">
+                    Отмена
+                </a>
+            </p>
+        </form>
+    </div>
+</body>
+</html>

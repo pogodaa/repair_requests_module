@@ -1,16 +1,41 @@
+<!-- app/frontend/templates/base.html -->
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>{% block title %}Учёт заявок{% endblock %}</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    table { border-collapse: collapse; width: 100%; margin: 10px 0; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-    a { color: #0066cc; text-decoration: none; }
-  </style>
+    <meta charset="UTF-8">
+    <title>{% block title %}Учёт заявок{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" type="image/x-icon" href="/static/images/logo.ico">
 </head>
 <body>
-  {% block content %}{% endblock %}
+    <header>
+      <h1>{% block header %}{% endblock %}</h1>
+    
+      {% if user_role %}
+        <!-- Первая строка: "Вы вошли как" + "Выйти" -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin: 10px 0;">
+          <span>Вы вошли как: <strong>{{ user_role }}</strong></span>
+          <a href="/logout" class="button logout">Выйти</a>
+        </div>
+    
+        <!-- Вторая строка: навигация (только если не клиент) -->
+        <div style="margin-top: 10px;">
+        {% if user_role != "client" %}
+          <a href="/statistics" class="button">📊 Статистика</a>
+        {% endif %}
+          {% if user_role in ["manager", "admin"] %}
+            <a href="/users" class="button">👥 Пользователи</a>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if user_role == "client" %}
+        <a href="/create-request" class="button">➕ Новая заявка</a>
+      {% endif %}
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
 </body>
 </html>

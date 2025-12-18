@@ -1,16 +1,69 @@
+<!-- app/frontend/templates/index.html -->
 {% extends "base.html" %}
+{% block title %}Заявки на ремонт{% endblock %}
+{% block header %}Заявки на ремонт{% endblock %}
 {% block content %}
-<h1>Список заявок на ремонт</h1>
+
 <table>
-  <thead><tr><th>ID</th><th>Дата</th><th>Тип</th><th>Статус</th><th>Клиент</th></tr></thead>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Дата создания</th> <!-- ← НОВАЯ КОЛОНКА -->
+      <th>Тип оборудования</th>
+      <th>Статус</th>
+      <th>Специалист</th>
+      {% if user_role != "client" %}
+        <th>Действия</th>
+      {% endif %}
+    </tr>
+  </thead>
   <tbody>
-    <tr><td>1</td><td>2023-06-06</td><td>Кондиционер</td><td>В процессе</td><td>Клиент 7</td></tr>
-    <tr><td>2</td><td>2023-05-05</td><td>Кондиционер</td><td>В процессе</td><td>Клиент 8</td></tr>
-    <tr><td>3</td><td>2022-07-07</td><td>Увлажнитель</td><td>Готова</td><td>Клиент 9</td></tr>
-    <tr><td>4</td><td>2023-08-02</td><td>Увлажнитель</td><td>Новая</td><td>Клиент 8</td></tr>
-    <tr><td>5</td><td>2023-08-02</td><td>Сушилка</td><td>Новая</td><td>Клиент 9</td></tr>
+    {% for req in requests %}
+    <tr>
+      <td>{{ req.requestID }}</td>
+      <td>{{ req.startDate }}</td> <!-- ← ДАТА СОЗДАНИЯ -->
+      <td>{{ req.climateTechType }}</td>
+      <td>{{ req.requestStatus }}</td>
+      <td>
+        {% if req.masterID %}
+          {{ get_user_fio(req.masterID) }}
+        {% else %}
+          <em>Не назначен</em>
+        {% endif %}
+      </td>
+      <td>
+        {% if user_role == "specialist" and req.masterID == current_user_id %}
+          <a href="/comment/{{ req.requestID }}" class="button">💬 Комментарий</a>
+        {% elif user_role == "operator" %}
+          <a href="/edit/{{ req.requestID }}" class="button">✏️ Редактировать</a>
+        {% elif user_role in ["manager", "admin"] %}
+          <a href="/assign/{{ req.requestID }}" class="button">Назначить</a>
+          <a href="/edit/{{ req.requestID }}" class="button">✏️ Редактировать</a>
+        {% endif %}
+      </td>
+    </tr>
+    <!-- Комментарии под заявкой -->
+    {% if req.comments %}
+      <tr>
+        <td colspan="6" style="padding-top: 0; border-top: none;"> <!-- colspan=6 (было 5) -->
+          <div style="background: #f8f9fa; padding: 12px; border-radius: 4px; margin-top: 8px; font-size: 14px;">
+            <strong>Комментарии:</strong>
+            <ul style="margin: 8px 0 0; padding-left: 20px;">
+              {% for comment in req.comments %}
+                <li>
+                  <em>{{ get_user_fio(comment.masterID) }}</em>: 
+                  "{{ comment.message }}"
+                  {% if comment.created_at %}
+                    <small style="color: #6c757d;">({{ comment.created_at }})</small>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </td>
+      </tr>
+    {% endif %}
+    {% endfor %}
   </tbody>
 </table>
-<br>
-<a href="/statistics">📊 Перейти к статистике</a>
 {% endblock %}

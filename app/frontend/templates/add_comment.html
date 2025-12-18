@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Добавить комментарий{% endblock %}
+{% block header %}Добавить комментарий к заявке №{{ request_id }}{% endblock %}
+{% block content %}
+<div style="max-width: 600px; margin: 0 auto;">
+  <form method="post">
+    <label>Ваш комментарий:</label>
+    <textarea name="message" 
+              placeholder="Опишите ход ремонта, использованные запчасти и т.д."
+              required minlength="5" maxlength="500"
+              style="width:100%; padding:8px; margin:6px 0; border:1px solid #ccc; border-radius:4px; height: 120px;"></textarea>
+
+    <p style="text-align: center; margin-top: 20px;">
+      <button type="submit" class="button button-primary" 
+              style="width: 160px; height: 42px; line-height: 42px; margin-right: 20px; padding: 0;">
+        Отправить
+      </button>
+      <a href="/" class="button button-primary" 
+         style="width: 140px; height: 42px; line-height: 42px; text-decoration: none; display: inline-block; padding: 0;">
+        Отмена
+      </a>
+    </p>
+  </form>
+</div>
+{% endblock %}

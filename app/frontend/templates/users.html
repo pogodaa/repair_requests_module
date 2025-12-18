@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Пользователи{% endblock %}
+{% block header %}Управление пользователями{% endblock %}
+{% block content %}
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>ФИО</th>
+      <th>Логин</th>
+      <th>Роль</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for u in users %}
+      {% if u.type != "Админ" %}
+      <tr>
+        <td>{{ u.userID }}</td>
+        <td>{{ u.fio }}</td>
+        <td>{{ u.login }}</td>
+        <td>
+          <form method="post" style="display:inline;" action="/users/{{ u.userID }}/role">
+            <select name="new_role" onchange="this.form.submit()">
+              <option value="Заказчик" {% if u.type == "Заказчик" %}selected{% endif %}>Заказчик</option>
+              <option value="Оператор" {% if u.type == "Оператор" %}selected{% endif %}>Оператор</option>
+              <option value="Специалист" {% if u.type == "Специалист" %}selected{% endif %}>Специалист</option>
+              <option value="Менеджер" {% if u.type == "Менеджер" %}selected{% endif %}>Менеджер</option>
+            </select>
+          </form>
+        </td>
+      </tr>
+      {% endif %}
+    {% endfor %}
+  </tbody>
+</table>
+
+<a href="/" class="button">← Назад</a>
+{% endblock %}

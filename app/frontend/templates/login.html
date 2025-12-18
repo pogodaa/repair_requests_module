@@ -1,0 +1,37 @@
+<!-- app/frontend/templates/login.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Авторизация</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" type="image/x-icon" href="/static/images/logo.ico">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Вход в систему</h2>
+
+        {% if request.query_params.get("registered") %}
+        <div class="alert" style="background:#d4edda; color:#155724; border-color:#c3e6cb;">
+            Регистрация прошла успешно! Теперь вы можете войти.
+        </div>
+        {% endif %}
+
+        {% if error %}
+        <div class="alert alert-error">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <form method="post">
+            <p><input type="text" name="login" placeholder="Логин" required autofocus></p>
+            <p><input type="password" name="password" placeholder="Пароль" required></p>
+            <p><button type="submit" class="button button-primary">Войти</button></p>
+        </form>
+
+        <p style="text-align: center; margin-top: 20px;">
+            Нет аккаунта? <a href="/register" class="button" style="padding:6px 12px; font-size:14px;">Зарегистрироваться</a>
+        </p>
+    </div>
+</body>
+</html>
