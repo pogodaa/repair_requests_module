@@ -34,26 +34,6 @@ def role_to_code(role: str) -> str:
 def login_form(request: Request, error: str = None):
     return templates.TemplateResponse("login.html", {"request": request, "error": error})
 
-# @router.post("/login", response_class=HTMLResponse)
-# def login(
-#     request: Request,
-#     login: str = Form(...),
-#     password: str = Form(...),
-#     db: Session = Depends(get_db)
-# ):
-#     user = db.query(User).filter(User.login == login, User.password == password).first()
-#     if not user:
-#         return templates.TemplateResponse(
-#             "login.html",
-#             {"request": request, "error": "Неверный логин или пароль"},
-#             status_code=401
-#         )
-    
-#     response = RedirectResponse(url="/", status_code=303)
-#     response.set_cookie(key="user_role", value=role_to_code(user.type))
-#     response.set_cookie(key="user_id", value=str(user.userID))
-#     return response
-
 @router.post("/login", response_class=HTMLResponse)
 def login(
     request: Request,

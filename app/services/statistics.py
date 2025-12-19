@@ -24,32 +24,6 @@ def load_requests_from_excel() -> List[RepairRequest]:
         ))
     return requests
 
-# def calculate_avg_repair_time(requests: List[RepairRequest]) -> float:
-#     """Рассчитывает среднее время выполнения завершённых заявок (в днях)."""
-#     total_days = 0
-#     count = 0
-#     for req in requests:
-#         if req.requestStatus == "Готова к выдаче" and req.completionDate:
-#             try:
-#                 start = datetime.strptime(req.startDate, "%Y-%m-%d")
-#                 end = datetime.strptime(req.completionDate, "%Y-%m-%d")
-#                 days = (end - start).days
-#                 if days >= 0:
-#                     total_days += days
-#                     count += 1
-#             except ValueError:
-#                 continue  # некорректный формат даты
-#     return round(total_days / count, 2) if count > 0 else 0.0
-
-# def count_completed_requests(requests: List[RepairRequest]) -> int:
-#     return sum(1 for r in requests if r.requestStatus == "Готова к выдаче")
-
-# def get_top_equipment_types(requests: List[RepairRequest], top_n: int = 3) -> dict:
-#     from collections import Counter
-#     types = [r.climateTechType for r in requests]
-#     return dict(Counter(types).most_common(top_n))
-
-
 def calculate_avg_repair_time(requests: List[RepairRequest]) -> float:
     total_days = 0
     count = 0

@@ -35,31 +35,6 @@ def get_db():
     finally:
         db.close()
 
-# @app.get("/", response_class=HTMLResponse)
-# def index(request: Request, db: Session = Depends(get_db)):  # ← Request из fastapi
-#     role = request.cookies.get("user_role")
-#     user_id = request.cookies.get("user_id")
-#     if not role or not user_id:
-#         return RedirectResponse("/login")
-
-#     user_id_int = int(user_id)
-#     if role == "client":
-#         requests = db.query(RepairRequest).filter(RepairRequest.clientID == user_id_int).all()
-#     elif role == "specialist":
-#         requests = db.query(RepairRequest).filter(RepairRequest.masterID == user_id_int).all()
-#     else:
-#         requests = db.query(RepairRequest).all()
-    
-#     users = {u.userID: u.fio for u in db.query(User).all()}
-
-#     return templates.TemplateResponse("index.html", {
-#         "request": request,  # ← важно: request из FastAPI
-#         "requests": requests,
-#         "user_role": role,
-#         "current_user_id": user_id_int,
-#         "get_user_fio": lambda uid: users.get(uid, f"ID{uid}")
-#     })
-
 @app.get("/", response_class=HTMLResponse)
 def index(request: Request, db: Session = Depends(get_db)):
     role = request.cookies.get("user_role")
@@ -75,7 +50,7 @@ def index(request: Request, db: Session = Depends(get_db)):
     else:
         requests = db.query(RepairRequest).all()
     
-    # 🔥 Загружаем комментарии для КАЖДОЙ заявки
+    # Загружаем комментарии для КАЖДОЙ заявки
     for req in requests:
         req.comments = crud_requests.get_comments_by_request(db, req.requestID)
     

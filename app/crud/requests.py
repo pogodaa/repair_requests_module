@@ -2,12 +2,6 @@
 from sqlalchemy.orm import Session
 from app.models import RepairRequest, User, Comment
 
-# def get_requests(db: Session, skip: int = 0, limit: int = 100):
-#     return db.query(RepairRequest).offset(skip).limit(limit).all()
-
-# def get_request(db: Session, request_id: int):
-#     return db.query(RepairRequest).filter(RepairRequest.requestID == request_id).first()
-
 def get_requests(db: Session, skip: int = 0, limit: int = 100):
     requests = db.query(RepairRequest).offset(skip).limit(limit).all()
     # Загружаем комментарии для каждой заявки

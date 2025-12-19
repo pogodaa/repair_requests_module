@@ -8,7 +8,7 @@
   <thead>
     <tr>
       <th>ID</th>
-      <th>Дата создания</th> <!-- ← НОВАЯ КОЛОНКА -->
+      <th>Дата создания</th>
       <th>Тип оборудования</th>
       <th>Статус</th>
       <th>Специалист</th>
@@ -21,7 +21,7 @@
     {% for req in requests %}
     <tr>
       <td>{{ req.requestID }}</td>
-      <td>{{ req.startDate }}</td> <!-- ← ДАТА СОЗДАНИЯ -->
+      <td>{{ req.startDate }}</td>
       <td>{{ req.climateTechType }}</td>
       <td>{{ req.requestStatus }}</td>
       <td>
@@ -45,7 +45,7 @@
     <!-- Комментарии под заявкой -->
     {% if req.comments %}
       <tr>
-        <td colspan="6" style="padding-top: 0; border-top: none;"> <!-- colspan=6 (было 5) -->
+        <td colspan="6" style="padding-top: 0; border-top: none;">
           <div style="background: #f8f9fa; padding: 12px; border-radius: 4px; margin-top: 8px; font-size: 14px;">
             <strong>Комментарии:</strong>
             <ul style="margin: 8px 0 0; padding-left: 20px;">
@@ -59,6 +59,19 @@
                 </li>
               {% endfor %}
             </ul>
+          </div>
+        </td>
+      </tr>
+    {% endif %}
+    <!-- QR-код для заказчика под завершёнными заявками -->
+    {% if user_role == "client" and req.requestStatus == "Готова к выдаче" %}
+      <tr>
+        <td colspan="6" style="padding: 15px 0 0; border: none;">
+          <div style="background: #e9f7ef; padding: 12px; border-radius: 6px; display: inline-block; text-align: center;">
+            <strong>✅ Заявка выполнена! Оцените качество обслуживания:</strong><br>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSdhZcExx6LSIXxk0ub55mSu-WIh23WYdGG9HY5EZhLDo7P8eA%2Fviewform" 
+                 alt="QR-код для отзыва"
+                 style="margin-top: 8px; vertical-align: middle;">
           </div>
         </td>
       </tr>
